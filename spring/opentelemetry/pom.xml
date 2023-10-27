@@ -88,6 +88,24 @@
                 <groupId>org.graalvm.buildtools</groupId>
                 <artifactId>native-maven-plugin</artifactId>
                 <version>0.9.28</version>
+                <configuration>
+                    <buildArgs>
+                        <buildArg>--initialize-at-build-time=ch.qos.logback.classic.Level</buildArg>
+                        <buildArg>--initialize-at-build-time=ch.qos.logback.classic.Logger</buildArg>
+                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.CoreConstants</buildArg>
+                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.status.InfoStatus</buildArg>
+                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.status.StatusBase</buildArg>
+                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.util.Loader</buildArg>
+                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.util.StatusPrinter</buildArg>
+                        <buildArg>--initialize-at-build-time=org.slf4j.LoggerFactory</buildArg>
+                        <buildArg>--initialize-at-run-time=ch.qos.logback.classic.PatternLayout</buildArg>
+                        <buildArg>--initialize-at-run-time=io.netty.handler.codec.http2.CleartextHttp2ServerUpgradeHandler</buildArg>
+                        <buildArg>--initialize-at-run-time=io.netty.handler.codec.http2.Http2CodecUtil</buildArg>
+                        <buildArg>--initialize-at-run-time=io.netty.handler.codec.http2.Http2ServerUpgradeCodec</buildArg>
+                        <buildArg>--initialize-at-run-time=io.netty.handler.ssl.BouncyCastleAlpnSslUtils</buildArg>
+                        <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+                    </buildArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
