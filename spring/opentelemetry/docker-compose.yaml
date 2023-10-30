@@ -1,0 +1,38 @@
+version: '2.1'
+services:
+  postgres:
+    image: postgres:16.0
+    mem_limit: 256M
+    environment:
+      - POSTGRES_USER=playground
+      - POSTGRES_PASSWORD=playground
+      - POSTGRES_DB=playground
+    ports:
+      - '5432:5432'
+  collector:
+    image: otel/opentelemetry-collector-contrib:0.70.0
+    command: [ '--config=/conf/collector-config.yaml' ]
+    mem_limit: 256M
+    ports:
+      - "8888:8888"   # Prometheus metrics exposed by the collector
+      - "8889:8889"   # Prometheus exporter metrics
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP http receiver
+      - "1888:1888"   # OTLP pprof extension
+      - "13133:13133" # OTLP health_check extension
+      - "55679:55679" # OTLP zpages extension
+      - "24224:24224" # Fluent forward receiver
+    volumes:
+      - './src/main/compose/opentelemetry.yaml:/conf/collector-config.yaml'
+  prometheus:
+    image: prom/prometheus:v2.32.1
+    mem_limit: 64M
+    volumes:
+      - ./src/main/compose/prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - '9090:9090'
+  zipkin:
+    image: openzipkin/zipkin:2.23.4
+    mem_limit: 512M
+    ports:
+      - '9411:9411'

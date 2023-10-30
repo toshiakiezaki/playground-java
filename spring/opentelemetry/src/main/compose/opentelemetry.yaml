@@ -1,0 +1,33 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+exporters:
+  logging:
+    verbosity: normal
+    zipkin:
+      endpoint: "http://zipkin:9411/api/v2/spans"
+    prometheus:
+      endpoint: "0.0.0.0:9464"
+processors:
+  batch:
+    send_batch_size: 8192
+service:
+  pipelines:
+    metrics:
+      receivers:
+        - otlp
+      exporters:
+        - logging
+        - prometheus
+      processors:
+        - batch
+    traces:
+      receivers:
+        - otlp
+      exporters:
+        - logging
+        - zipkin
+      processors:
+        - batch
