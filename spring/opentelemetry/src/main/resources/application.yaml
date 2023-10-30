@@ -1,1 +1,6 @@
-
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/playground
+    username: playground
+    password: playground
+    initialization-mode: always
