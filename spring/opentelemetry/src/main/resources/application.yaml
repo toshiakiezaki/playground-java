@@ -4,3 +4,18 @@ spring:
     username: playground
     password: playground
     initialization-mode: always
+  flyway:
+    url: jdbc:postgresql://localhost:5432/playground
+    user: playground
+    password: playground
+    table: schema_version
+    locations: classpath:migrations
+    baseline-on-migrate: true
+    baseline-version: 1.0.0.0000
+    baseline-description: 0000 - Baseline version
+    sql-migration-prefix: v
+    sql-migration-separator: __
+    sql-migration-suffixes: [.sql]
+    clean-on-validation-error: true
+    out-of-order: false
+    validate-on-migrate: true

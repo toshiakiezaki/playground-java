@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   postgres:
-    image: postgres:16.0
+    image: postgres:15.0
     mem_limit: 256M
     environment:
       - POSTGRES_USER=playground
