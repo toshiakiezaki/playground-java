@@ -24,6 +24,9 @@ services:
       - "24224:24224" # Fluent forward receiver
     volumes:
       - './src/main/compose/opentelemetry.yaml:/conf/collector-config.yaml'
+    depends_on:
+      - prometheus
+      - zipkin
   prometheus:
     image: prom/prometheus:v2.32.1
     mem_limit: 64M
