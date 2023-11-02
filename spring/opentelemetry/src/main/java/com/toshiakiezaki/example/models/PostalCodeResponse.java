@@ -58,4 +58,14 @@ public class PostalCodeResponse implements Serializable {
                 .build();
     }
 
+    public static PostalCodeResponse from(ViaCepResponse viaCep) {
+        return PostalCodeResponse.builder()
+                .code(viaCep.getCep().replaceAll("[^0-9]", ""))
+                .street(viaCep.getLogradouro())
+                .neighborhood(viaCep.getBairro())
+                .city(viaCep.getLocalidade())
+                .state(viaCep.getUf())
+                .build();
+    }
+
 }
