@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 @Getter
@@ -65,6 +66,9 @@ public class PostalCodeResponse implements Serializable {
                 .neighborhood(viaCep.getBairro())
                 .city(viaCep.getLocalidade())
                 .state(viaCep.getUf())
+                .side(empty()) // TODO Parse `complemento` field
+                .startRange(empty()) // TODO Parse `complemento` field
+                .endRange(empty()) // TODO Parse `complemento` field
                 .build();
     }
 
