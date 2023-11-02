@@ -1,7 +1,11 @@
 package com.toshiakiezaki.example.models;
 
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.toshiakiezaki.example.entities.PostalCodeSide;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,24 +17,49 @@ import lombok.Setter;
 @JsonInclude(Include.NON_NULL)
 public class ViaCepResponse {
 
-    private String cep;
+    @JsonProperty(value = "cep")
+    private String code;
 
-    private String logradouro;
+    @JsonProperty(value = "logradouro")
+    private String street;
 
-    private String complemento;
+    @JsonProperty(value = "bairro")
+    private String neighborhood;
 
-    private String bairro;
+    @JsonProperty(value = "localidade")
+    private String city;
 
-    private String localidade;
+    @JsonProperty(value = "uf")
+    private String state;
 
-    private String uf;
+    @JsonProperty(value = "complemento")
+    private String notes;
 
-    private String ibge;
-
-    private String gia;
-
+    @JsonProperty(value = "ddd")
     private String ddd;
 
+    @JsonProperty(value = "ibge")
+    private String ibge;
+
+    @JsonProperty(value = "siafi")
     private String siafi;
+
+    @JsonProperty(value = "gia")
+    private String gia;
+
+    public Optional<PostalCodeSide> getSide() {
+        // TODO Auto-generated method stub
+        return Optional.empty();
+    }
+
+    public Optional<Integer> getStartRange() {
+        // TODO Auto-generated method stub
+        return Optional.empty();
+    }
+
+    public Optional<Integer> getEndRange() {
+        // TODO Auto-generated method stub
+        return Optional.empty();
+    }
 
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.toshiakiezaki.example.entities.PostalCode;
 import com.toshiakiezaki.example.entities.PostalCodeSide;
 
@@ -16,7 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 @Getter
@@ -27,22 +27,31 @@ import static java.util.Optional.of;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostalCodeResponse implements Serializable {
 
+    @JsonProperty(value = "id")
     private UUID id;
 
+    @JsonProperty(value = "code")
     private String code;
 
+    @JsonProperty(value = "street")
     private String street;
 
+    @JsonProperty(value = "neighborhood")
     private String neighborhood;
 
+    @JsonProperty(value = "city")
     private String city;
 
+    @JsonProperty(value = "state")
     private String state;
 
+    @JsonProperty(value = "side")
     private Optional<PostalCodeSide> side;
 
+    @JsonProperty(value = "start_range")
     private Optional<Integer> startRange;
 
+    @JsonProperty(value = "end_range")
     private Optional<Integer> endRange;
 
     public static PostalCodeResponse from(PostalCode postalCode) {
@@ -61,14 +70,14 @@ public class PostalCodeResponse implements Serializable {
 
     public static PostalCodeResponse from(ViaCepResponse viaCep) {
         return PostalCodeResponse.builder()
-                .code(viaCep.getCep().replaceAll("[^0-9]", ""))
-                .street(viaCep.getLogradouro())
-                .neighborhood(viaCep.getBairro())
-                .city(viaCep.getLocalidade())
-                .state(viaCep.getUf())
-                .side(empty()) // TODO Parse `complemento` field
-                .startRange(empty()) // TODO Parse `complemento` field
-                .endRange(empty()) // TODO Parse `complemento` field
+                .code(viaCep.getCode().replaceAll("[^0-9]", ""))
+                .street(viaCep.getStreet())
+                .neighborhood(viaCep.getNeighborhood())
+                .city(viaCep.getCity())
+                .state(viaCep.getState())
+                .side(viaCep.getSide())
+                .startRange(viaCep.getStartRange())
+                .endRange(viaCep.getEndRange())
                 .build();
     }
 
