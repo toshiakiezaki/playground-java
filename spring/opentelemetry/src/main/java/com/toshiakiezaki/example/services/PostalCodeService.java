@@ -1,5 +1,9 @@
 package com.toshiakiezaki.example.services;
 
+import static java.util.Objects.isNull;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +18,6 @@ import com.toshiakiezaki.example.utils.ULID;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import static java.util.Objects.isNull;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class PostalCodeService {

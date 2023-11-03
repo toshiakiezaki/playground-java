@@ -1,5 +1,7 @@
 package com.toshiakiezaki.example.models;
 
+import static java.util.Optional.of;
+
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,8 +18,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import static java.util.Optional.of;
 
 @Getter
 @Setter
