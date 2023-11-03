@@ -69,7 +69,7 @@ public class PostalCodeResponse implements Serializable {
     }
 
     public static PostalCodeResponse from(ViaCepResponse viaCep) {
-        return PostalCodeResponse.builder()
+        return builder()
                 .code(viaCep.getCode().replaceAll("[^0-9]", ""))
                 .street(viaCep.getStreet())
                 .neighborhood(viaCep.getNeighborhood())

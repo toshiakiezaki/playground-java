@@ -48,8 +48,11 @@ public class ViaCepResponse {
     private String gia;
 
     public Optional<PostalCodeSide> getSide() {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+        if ("".equals(notes) || !notes.contains("lado")) {
+            return Optional.empty();
+        }
+        var side = notes.replaceAll(".*lado\s", "");
+        return Optional.of(PostalCodeSide.parse(side));
     }
 
     public Optional<Integer> getStartRange() {

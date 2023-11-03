@@ -1,21 +1,26 @@
 package com.toshiakiezaki.example.entities;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 import static java.util.Arrays.stream;
 
+import com.toshiakiezaki.example.exceptions.UnmappablePropertyValueException;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public enum PostalCodeSide {
 
-    ODD,
-    EVEN;
+    ODD("ímpar"),
+    EVEN("par");
 
-    @JsonValue
+    private final String code;
+
     public String code() {
-        return name();
+        return code;
     }
 
     public static PostalCodeSide parse(String code) {
-        return stream(values()).filter(f -> f.code().equals(code)).findFirst().orElseThrow();
+        return stream(values()).filter(f -> f.code().equals(code)).findFirst()
+                .orElseThrow(() -> new UnmappablePropertyValueException(String.format("Unsupported side value: %s", code)));
     }
 
 }
