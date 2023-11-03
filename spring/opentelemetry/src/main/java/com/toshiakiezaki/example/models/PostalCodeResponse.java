@@ -1,6 +1,8 @@
 package com.toshiakiezaki.example.models;
 
+import static java.util.Objects.nonNull;
 import static java.util.Optional.of;
+import static java.util.Optional.empty;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -62,9 +64,9 @@ public class PostalCodeResponse implements Serializable {
                 .neighborhood(postalCode.getNeighborhood())
                 .city(postalCode.getCity())
                 .state(postalCode.getState())
-                .side(of(postalCode.getSide()))
-                .startRange(of(postalCode.getStartRange()))
-                .endRange(of(postalCode.getEndRange()))
+                .side(nonNull(postalCode.getSide()) ? of(postalCode.getSide()) : empty())
+                .startRange(nonNull(postalCode.getStartRange()) ? of(postalCode.getStartRange()) : empty())
+                .endRange(nonNull(postalCode.getEndRange()) ? of(postalCode.getEndRange()) : empty())
                 .build();
     }
 
