@@ -56,13 +56,32 @@ public class ViaCepResponse {
     }
 
     public Optional<Integer> getStartRange() {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+        if ("".equals(notes) || !notes.startsWith("de")) {
+            return Optional.empty();
+        }
+        var parts = notes.split(" ");
+        return this.extractRange(parts[1]);
     }
 
     public Optional<Integer> getEndRange() {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+        if ("".equals(notes) || notes.startsWith("lado") || notes.contains("ao fim")) {
+            return Optional.empty();
+        }
+        var parts = notes.split(" ");
+        if (parts[0].equals("até")) {
+            return this.extractRange(parts[1], false);
+        }
+        return this.extractRange(parts[3], false);
+    }
+
+    private Optional<Integer> extractRange(String value) {
+        return this.extractRange(value, true);
+    }
+
+    private Optional<Integer> extractRange(String value, boolean startingRange) {
+        var parts = value.split("/");
+        var index = (startingRange) ? 0 : parts.length - 1;
+        return Optional.of(Integer.parseInt(parts[index]));
     }
 
 }
