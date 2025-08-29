@@ -4,8 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
-        <relativePath/>
+        <version>4.0.0-M2</version>
     </parent>
 
     <groupId>com.toshiakiezaki.example</groupId>
@@ -27,13 +26,23 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
             <scope>compile</scope>
         </dependency>
         <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-webclient</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -51,17 +60,17 @@
             <artifactId>r2dbc-postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-        -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-otlp</artifactId>
+            <scope>runtime</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
@@ -72,9 +81,17 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <configuration>
+                    <buildArgs>
+                        <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.1.5</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -85,33 +102,22 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-                <version>0.9.28</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <buildArgs>
-                        <buildArg>--initialize-at-build-time=ch.qos.logback.classic.Level</buildArg>
-                        <buildArg>--initialize-at-build-time=ch.qos.logback.classic.Logger</buildArg>
-                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.CoreConstants</buildArg>
-                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.status.InfoStatus</buildArg>
-                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.status.StatusBase</buildArg>
-                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.util.Loader</buildArg>
-                        <buildArg>--initialize-at-build-time=ch.qos.logback.core.util.StatusPrinter</buildArg>
-                        <buildArg>--initialize-at-build-time=org.slf4j.LoggerFactory</buildArg>
-                        <buildArg>--initialize-at-run-time=ch.qos.logback.classic.PatternLayout</buildArg>
-                        <buildArg>--initialize-at-run-time=io.netty.handler.codec.http2.CleartextHttp2ServerUpgradeHandler</buildArg>
-                        <buildArg>--initialize-at-run-time=io.netty.handler.codec.http2.Http2CodecUtil</buildArg>
-                        <buildArg>--initialize-at-run-time=io.netty.handler.codec.http2.Http2ServerUpgradeCodec</buildArg>
-                        <buildArg>--initialize-at-run-time=io.netty.handler.ssl.BouncyCastleAlpnSslUtils</buildArg>
-                        <buildArg>-H:+ReportExceptionStackTraces</buildArg>
-                    </buildArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
                 <configuration>
+                    <argLine>-XX:+EnableDynamicAgentLoading</argLine>
                     <includes>
                         <include>**/*UnitTest.java</include>
                     </includes>
@@ -123,21 +129,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.1.2</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <configuration>
-                                <includes>
-                                    <include>**/*IntegrationTest.java</include>
-                                </includes>
-                                <excludes>
-                                    <exclude>**/*UnitTest.java</exclude>
-                                </excludes>
-                            </configuration>
+                            <argLine>-XX:+EnableDynamicAgentLoading</argLine>
+                            <includes>
+                                <include>**/*IntegrationTest.java</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/*UnitTest.java</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
