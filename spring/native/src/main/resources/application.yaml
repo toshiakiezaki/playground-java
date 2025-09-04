@@ -1,3 +1,11 @@
 spring:
   application:
     name: spring-native-example
+  r2dbc:
+    hostname: localhost
+    port: 5432
+    database: playground
+    url: r2dbc:postgresql://${spring.r2dbc.hostname}:${spring.r2dbc.port}/${spring.r2dbc.database}
+    username: playground
+    password: playground
+    initialization-mode: always
