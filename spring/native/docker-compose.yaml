@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:17.0
+    mem_limit: 256M
+    environment:
+      - POSTGRES_USER=playground
+      - POSTGRES_PASSWORD=playground
+      - POSTGRES_DB=playground
+    ports:
+      - '5432:5432'
