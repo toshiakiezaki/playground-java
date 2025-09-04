@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.toshiakiezaki.example.domain.entities.PostalCode;
 import com.toshiakiezaki.example.domain.entities.PostalCodeSide;
 
 import lombok.Getter;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class ViaCepResponse {
+public class ViaCepData {
 
     @JsonProperty(value = "cep")
     private String code;
@@ -82,6 +83,18 @@ public class ViaCepResponse {
         var parts = value.split("/");
         var index = (startingRange) ? 0 : parts.length - 1;
         return Optional.of(Integer.parseInt(parts[index]));
+    }
+
+    public PostalCode toEntity() {
+        return PostalCode.builder()
+                .code(this.getCode())
+                .street(this.getStreet())
+                .neighborhood(this.getNeighborhood())
+                .city(this.getCity())
+                .state(this.getState())
+                .startRange(this.getStartRange().orElse(null))
+                .endRange(this.getEndRange().orElse(null))
+                .build();
     }
 
 }
