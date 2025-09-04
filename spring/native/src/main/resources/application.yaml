@@ -8,4 +8,17 @@ spring:
     url: r2dbc:postgresql://${spring.r2dbc.hostname}:${spring.r2dbc.port}/${spring.r2dbc.database}
     username: playground
     password: playground
-    initialization-mode: always
+  flyway:
+    url: jdbc:postgresql://${spring.r2dbc.hostname}:${spring.r2dbc.port}/${spring.r2dbc.database}
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
+    table: schema_version
+    locations: classpath:migrations
+    baseline-on-migrate: true
+    baseline-version: 1.0.0.0000
+    baseline-description: 0000 - Baseline version
+    sql-migration-prefix: v
+    sql-migration-separator: __
+    sql-migration-suffixes: [.sql]
+    out-of-order: false
+    validate-on-migrate: true
