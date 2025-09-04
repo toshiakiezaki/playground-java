@@ -1,31 +1,26 @@
 package com.toshiakiezaki.example.adapter.outbound.database.v1.handlers;
 
-import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
 import com.toshiakiezaki.example.adapter.outbound.database.v1.entities.PostalCodeData;
 import com.toshiakiezaki.example.domain.entities.PostalCode;
 
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
-import org.springframework.stereotype.Repository;
-
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
 @RequiredArgsConstructor
 public class PostalCodeRepository {
 
-	private final PostalCodeDataRepository repository;
+	private final PostalCodeManager manager;
 
-	public Mono<PostalCode> findByCode(String code) {
-		return this.repository.findByCode(code).map(PostalCodeData::toEntity);
+	public Flux<PostalCode> findAll() {
+		return manager.findAll().map(PostalCodeData::toEntity);
 	}
 
-}
-
-@Repository
-interface PostalCodeDataRepository extends R2dbcRepository<PostalCodeData, String> {
-
-	Mono<PostalCodeData> findByCode(String code);
+	public Mono<PostalCode> findByCode(String code) {
+		return manager.findByCode(code).map(PostalCodeData::toEntity);
+	}
 
 }
