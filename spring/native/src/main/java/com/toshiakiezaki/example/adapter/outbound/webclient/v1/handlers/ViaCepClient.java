@@ -10,14 +10,16 @@ import reactor.core.publisher.Mono;
 @Repository
 public class ViaCepClient {
 
+	private static final String DEFAULT_TYPE = "json";
+
 	private final WebClient client;
 
 	public ViaCepClient() {
 		this.client = WebClient.create("https://viacep.com.br");
 	}
 
-	public Mono<PostalCode> findByCodeAndType(String code, String type) {
-		return client.get().uri(String.format("/ws/%s/%s", code, type)).accept(MediaType.APPLICATION_JSON).retrieve()
+	public Mono<PostalCode> findByCode(String code) {
+		return client.get().uri(String.format("/ws/%s/%s", code, DEFAULT_TYPE)).accept(MediaType.APPLICATION_JSON).retrieve()
 				.bodyToMono(ViaCepData.class).map(ViaCepData::toEntity);
 	}
 
