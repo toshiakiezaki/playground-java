@@ -9,6 +9,8 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 public class Bootstrap {
 
 	public static void main(String[] args) {
+		System.setProperty("io.netty.tryUnsafe", "false");
+
 		SpringApplication.run(Bootstrap.class, args);
 	}
 
