@@ -22,3 +22,12 @@ spring:
     sql-migration-suffixes: [.sql]
     out-of-order: false
     validate-on-migrate: true
+logging:
+  level:
+    io:
+      micrometer:
+        core:
+          instrument:
+            binder:
+              jvm:
+                JvmGcMetrics: ERROR
