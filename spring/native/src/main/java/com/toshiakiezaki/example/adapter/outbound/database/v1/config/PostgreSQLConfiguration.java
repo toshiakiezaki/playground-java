@@ -36,12 +36,16 @@ public class PostgreSQLConfiguration extends AbstractR2dbcConfiguration {
     @Bean
     @Override
     public ConnectionFactory connectionFactory() {
-        return new PostgresqlConnectionFactory(
-            PostgresqlConnectionConfiguration.builder()
-                    .host(hostname).port(port).database(database).username(username).password(password)
-                    .codecRegistrar(EnumCodec.builder().withEnum("postal_code_side", PostalCodeSide.class).build())
-                    .build()
-        );
+        return new PostgresqlConnectionFactory(PostgresqlConnectionConfiguration.builder()
+                .host(hostname)
+                .port(port)
+                .database(database)
+                .username(username)
+                .password(password)
+                .codecRegistrar(EnumCodec.builder()
+                        .withEnum("postal_code_side", PostalCodeSide.class)
+                        .build())
+                .build());
     }
 
     @Override

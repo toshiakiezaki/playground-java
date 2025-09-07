@@ -13,14 +13,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class PostalCodeService {
 
-	private final PostalCodePort repository;
+    private final PostalCodePort repository;
 
-	public Flux<PostalCode> findAll() {
-		return repository.findAll();
-	}
+    public Flux<PostalCode> findAll() {
+        return repository.findAll();
+    }
 
-	public Mono<PostalCode> findByCode(String code) {
-		return repository.findByCode(code);
-	}
+    public Mono<PostalCode> findByCode(String code) {
+        return repository.findByCode(code);
+    }
 
 }

@@ -28,31 +28,31 @@ import static java.util.Optional.of;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostalCodeResponse implements Serializable {
 
-	@JsonProperty(value = "code")
-	private String code;
+    @JsonProperty(value = "code")
+    private String code;
 
-	@JsonProperty(value = "street")
-	private String street;
+    @JsonProperty(value = "street")
+    private String street;
 
-	@JsonProperty(value = "neighborhood")
-	private String neighborhood;
+    @JsonProperty(value = "neighborhood")
+    private String neighborhood;
 
-	@JsonProperty(value = "city")
-	private String city;
+    @JsonProperty(value = "city")
+    private String city;
 
-	@JsonProperty(value = "state")
-	private String state;
+    @JsonProperty(value = "state")
+    private String state;
 
-	@JsonProperty(value = "side")
-	private Optional<PostalCodeSide> side;
+    @JsonProperty(value = "side")
+    private Optional<PostalCodeSide> side;
 
-	@JsonProperty(value = "start_range")
-	private Optional<Integer> startRange;
+    @JsonProperty(value = "start_range")
+    private Optional<Integer> startRange;
 
-	@JsonProperty(value = "end_range")
-	private Optional<Integer> endRange;
+    @JsonProperty(value = "end_range")
+    private Optional<Integer> endRange;
 
-	public static PostalCodeResponse from(PostalCode postalCode) {
+    public static PostalCodeResponse from(PostalCode postalCode) {
         return builder()
                 .code(postalCode.getCode())
                 .street(postalCode.getStreet())
@@ -63,6 +63,6 @@ public class PostalCodeResponse implements Serializable {
                 .startRange(nonNull(postalCode.getStartRange()) ? of(postalCode.getStartRange()) : empty())
                 .endRange(nonNull(postalCode.getEndRange()) ? of(postalCode.getEndRange()) : empty())
                 .build();
-	}
+    }
 
 }

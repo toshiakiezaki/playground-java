@@ -1,7 +1,7 @@
 package com.toshiakiezaki.example.domain.exceptions;
 
 public class UnmappablePropertyValueException extends RuntimeException {
-    
+
     public UnmappablePropertyValueException() {
         super();
     }

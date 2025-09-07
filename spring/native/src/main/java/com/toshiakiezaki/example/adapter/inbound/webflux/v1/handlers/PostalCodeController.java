@@ -22,16 +22,14 @@ public class PostalCodeController {
 
     private final PostalCodeService service;
 
-	@RequestMapping(path = "", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Flux<PostalCodeResponse>> findAll() {
-		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-				.body(this.service.findAll().map(PostalCodeResponse::from));
-	}
+    @RequestMapping(path = "", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Flux<PostalCodeResponse>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(this.service.findAll().map(PostalCodeResponse::from));
+    }
 
-	@RequestMapping(path = "/{code}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Mono<PostalCodeResponse>> findById(@PathVariable(name = "code") String code) {
-		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-				.body(this.service.findByCode(code).map(PostalCodeResponse::from));
-	}
+    @RequestMapping(path = "/{code}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Mono<PostalCodeResponse>> findById(@PathVariable(name = "code") String code) {
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(this.service.findByCode(code).map(PostalCodeResponse::from));
+    }
 
 }

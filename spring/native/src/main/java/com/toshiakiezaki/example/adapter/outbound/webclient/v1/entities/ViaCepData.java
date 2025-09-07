@@ -87,13 +87,13 @@ public class ViaCepData {
 
     public PostalCode toEntity() {
         return PostalCode.builder()
-                .code(this.getCode())
-                .street(this.getStreet())
-                .neighborhood(this.getNeighborhood())
-                .city(this.getCity())
-                .state(this.getState())
-                .startRange(this.getStartRange().orElse(null))
-                .endRange(this.getEndRange().orElse(null))
+                .code(getCode())
+                .street(getStreet())
+                .neighborhood(getNeighborhood())
+                .city(getCity())
+                .state(getState())
+                .startRange(getStartRange().orElse(null))
+                .endRange(getEndRange().orElse(null))
                 .build();
     }
 

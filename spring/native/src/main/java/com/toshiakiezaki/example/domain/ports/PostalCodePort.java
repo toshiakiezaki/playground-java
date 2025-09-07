@@ -7,8 +7,8 @@ import reactor.core.publisher.Mono;
 
 public interface PostalCodePort {
 
-	Flux<PostalCode> findAll();
+    Flux<PostalCode> findAll();
 
-	Mono<PostalCode> findByCode(String code);
+    Mono<PostalCode> findByCode(String code);
 
 }

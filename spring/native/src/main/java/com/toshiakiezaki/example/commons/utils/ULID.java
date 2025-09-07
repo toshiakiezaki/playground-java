@@ -23,8 +23,8 @@ public class ULID {
         var bytes = new byte[10];
         random.nextBytes(bytes);
         var hexRandom = bytesToHex(bytes);
-        var strUUID = format("%s-%s-%s-%s-%s", hexEpoch.substring(0, 8), hexEpoch.substring(8, 12),
-                hexRandom.substring(0, 4), hexRandom.substring(4, 8), hexRandom.substring(8, 20));
+        var strUUID = format("%s-%s-%s-%s-%s", hexEpoch.substring(0, 8), hexEpoch.substring(8, 12), hexRandom.substring(0, 4), hexRandom.substring(4, 8),
+                hexRandom.substring(8, 20));
         return fromString(strUUID);
     }
 

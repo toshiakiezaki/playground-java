@@ -14,22 +14,22 @@ import lombok.Setter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostalCode {
 
-	private UUID id;
+    private UUID id;
 
-	private String code;
+    private String code;
 
-	private String street;
+    private String street;
 
-	private String neighborhood;
+    private String neighborhood;
 
-	private String city;
+    private String city;
 
-	private String state;
+    private String state;
 
-	private PostalCodeSide side;
+    private PostalCodeSide side;
 
-	private Integer startRange;
+    private Integer startRange;
 
-	private Integer endRange;
+    private Integer endRange;
 
 }

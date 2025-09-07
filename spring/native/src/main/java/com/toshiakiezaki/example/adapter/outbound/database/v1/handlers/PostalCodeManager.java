@@ -12,6 +12,6 @@ import reactor.core.publisher.Mono;
 @Repository
 interface PostalCodeManager extends R2dbcRepository<PostalCodeData, UUID> {
 
-	Mono<PostalCodeData> findByCode(String code);
+    Mono<PostalCodeData> findByCode(String code);
 
 }
