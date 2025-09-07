@@ -1,5 +1,7 @@
 package com.toshiakiezaki.example.domain.entities;
 
+import java.util.UUID;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,20 +14,22 @@ import lombok.Setter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostalCode {
 
-    private String code;
+	private UUID id;
 
-    private String street;
+	private String code;
 
-    private String neighborhood;
+	private String street;
 
-    private String city;
+	private String neighborhood;
 
-    private String state;
+	private String city;
 
-    private PostalCodeSide side;
+	private String state;
 
-    private Integer startRange;
+	private PostalCodeSide side;
 
-    private Integer endRange;
+	private Integer startRange;
+
+	private Integer endRange;
 
 }

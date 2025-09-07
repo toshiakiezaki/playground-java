@@ -67,6 +67,7 @@ public class PostalCodeData implements Persistable<UUID> {
 
     public PostalCode toEntity() {
         return PostalCode.builder()
+				.id(this.id)
                 .code(this.code)
                 .street(this.street)
                 .neighborhood(this.neighborhood)
