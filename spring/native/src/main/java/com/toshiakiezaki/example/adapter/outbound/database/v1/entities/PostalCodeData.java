@@ -67,14 +67,28 @@ public class PostalCodeData implements Persistable<UUID> {
 
     public PostalCode toEntity() {
         return PostalCode.builder()
-				.id(this.id)
-                .code(this.code)
-                .street(this.street)
-                .neighborhood(this.neighborhood)
-                .city(this.city)
-                .state(this.state)
-                .startRange(this.startRange)
-                .endRange(this.endRange)
+                .id(getId())
+                .code(getCode())
+                .street(getStreet())
+                .neighborhood(getNeighborhood())
+                .city(getCity())
+                .state(getState())
+                .startRange(getStartRange())
+                .endRange(getEndRange())
+                .build();
+    }
+
+    public static PostalCodeData from(PostalCode postalCode) {
+        return PostalCodeData.builder()
+                .id(postalCode.getId())
+                .code(postalCode.getCode())
+                .street(postalCode.getStreet())
+                .neighborhood(postalCode.getNeighborhood())
+                .city(postalCode.getCity())
+                .state(postalCode.getState())
+                .side(postalCode.getSide())
+                .startRange(postalCode.getStartRange())
+                .endRange(postalCode.getEndRange())
                 .build();
     }
 
