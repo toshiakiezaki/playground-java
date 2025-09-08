@@ -1,5 +1,6 @@
 package com.toshiakiezaki.example.adapter.outbound.database.v1.entities;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -17,6 +18,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import static java.util.Objects.nonNull;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
 @Getter
 @Setter
@@ -77,10 +82,10 @@ public class PostalCodeData implements Persistable<UUID> {
                 .neighborhood(getNeighborhood())
                 .city(getCity())
                 .state(getState())
-                .rangeSide(getRangeSide())
-                .rangeUnit(getRangeUnit())
-                .rangeStart(getRangeStart())
-                .rangeEnd(getRangeEnd())
+                .rangeSide(nonNull(getRangeSide()) ? of(getRangeSide()) : empty())
+                .rangeUnit(nonNull(getRangeUnit()) ? of(getRangeUnit()) : empty())
+                .rangeStart(nonNull(getRangeStart()) ? of(getRangeStart()) : empty())
+                .rangeEnd(nonNull(getRangeEnd()) ? of(getRangeEnd()) : empty())
                 .build();
     }
 
@@ -92,10 +97,10 @@ public class PostalCodeData implements Persistable<UUID> {
                 .neighborhood(postalCode.getNeighborhood())
                 .city(postalCode.getCity())
                 .state(postalCode.getState())
-                .rangeSide(postalCode.getRangeSide())
-                .rangeUnit(postalCode.getRangeUnit())
-                .rangeStart(postalCode.getRangeStart())
-                .rangeEnd(postalCode.getRangeEnd())
+                .rangeSide(postalCode.getRangeSide().orElse(null))
+                .rangeUnit(postalCode.getRangeUnit().orElse(null))
+                .rangeStart(postalCode.getRangeStart().orElse(null))
+                .rangeEnd(postalCode.getRangeEnd().orElse(null))
                 .build();
     }
 

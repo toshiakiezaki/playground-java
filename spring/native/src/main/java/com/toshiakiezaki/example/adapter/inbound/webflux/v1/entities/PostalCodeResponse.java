@@ -63,10 +63,10 @@ public class PostalCodeResponse implements Serializable {
                 .neighborhood(postalCode.getNeighborhood())
                 .city(postalCode.getCity())
                 .state(postalCode.getState())
-                .rangeSide(nonNull(postalCode.getRangeSide()) ? of(postalCode.getRangeSide()) : empty())
-                .rangeUnit(nonNull(postalCode.getRangeUnit()) ? of(postalCode.getRangeUnit()) : empty())
-                .rangeStart(nonNull(postalCode.getRangeStart()) ? of(postalCode.getRangeStart()) : empty())
-                .rangeEnd(nonNull(postalCode.getRangeEnd()) ? of(postalCode.getRangeEnd()) : empty())
+                .rangeSide(postalCode.getRangeSide())
+                .rangeUnit(postalCode.getRangeUnit())
+                .rangeStart(postalCode.getRangeStart())
+                .rangeEnd(postalCode.getRangeEnd())
                 .build();
     }
 

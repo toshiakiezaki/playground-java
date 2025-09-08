@@ -184,10 +184,10 @@ public class ViaCepData {
                 .neighborhood(getNeighborhood())
                 .city(getCity())
                 .state(getState())
-                .rangeSide(getRangeSide().orElse(null))
-                .rangeUnit(getRangeUnit().orElse(null))
-                .rangeStart(getRangeStart().orElse(null))
-                .rangeEnd(getRangeEnd().orElse(null))
+                .rangeSide(getRangeSide())
+                .rangeUnit(getRangeUnit())
+                .rangeStart(getRangeStart())
+                .rangeEnd(getRangeEnd())
                 .build();
     }
 

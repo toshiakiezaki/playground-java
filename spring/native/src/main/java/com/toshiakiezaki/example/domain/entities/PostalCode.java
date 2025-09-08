@@ -1,5 +1,6 @@
 package com.toshiakiezaki.example.domain.entities;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import lombok.AccessLevel;
@@ -26,12 +27,12 @@ public class PostalCode {
 
     private String state;
 
-    private PostalCodeSide rangeSide;
+    private Optional<PostalCodeSide> rangeSide;
 
-    private PostalCodeUnit rangeUnit;
+    private Optional<PostalCodeUnit> rangeUnit;
 
-    private Integer rangeStart;
+    private Optional<Integer> rangeStart;
 
-    private Integer rangeEnd;
+    private Optional<Integer> rangeEnd;
 
 }
