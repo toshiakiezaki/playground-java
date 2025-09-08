@@ -149,9 +149,15 @@ public class ViaCepData {
     }
 
     private Optional<Integer> extractRangeEnd(String str, Optional<PostalCodeSide> rangeSide) {
+        // Remove the unnecessary part
+        str = str.replaceAll("( - )?lado.*", "").trim();
+
         // Range end for numbers
         if (str.contains("até")) {
             var part = str.substring(str.indexOf("até") + 4).split(" ")[0];
+            return extractRangeOption(part, false, rangeSide);
+        } else if (str.contains(" a ")) {
+            var part = str.substring(str.indexOf(" a ") + 3).split(" ")[0];
             return extractRangeOption(part, false, rangeSide);
         } else if (str.contains("ao fim")) {
             return Optional.empty();
