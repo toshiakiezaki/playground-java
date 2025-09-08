@@ -17,7 +17,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static java.util.Objects.isNull;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Getter
 @Setter
@@ -100,21 +103,21 @@ public class ViaCepData {
     }
 
     private Optional<PostalCodeSide> extractRangeSide(String str) {
-        if (isEmpty(str) || !str.contains("lado")) {
-            return Optional.empty();
+        if (isBlank(str) || !str.contains("lado")) {
+            return empty();
         }
         var side = str.replaceAll(".*lado ", "");
-        return Optional.of(PostalCodeSide.parse(side));
+        return of(PostalCodeSide.parse(side));
     }
 
     private Optional<PostalCodeUnit> extractRangeUnit(String str) {
-        if (isEmpty(str)) {
-            return Optional.empty();
+        if (isBlank(str)) {
+            return empty();
         }
         if  (str.contains("km")) {
-            return Optional.of(PostalCodeUnit.KILOMETER);
+            return of(PostalCodeUnit.KILOMETER);
         }
-        return Optional.of(PostalCodeUnit.NUMBER);
+        return of(PostalCodeUnit.NUMBER);
     }
 
     private Optional<Integer> extractRangeStart(String str, Optional<PostalCodeSide> rangeSide) {
@@ -127,9 +130,9 @@ public class ViaCepData {
             return extractRangeOption(part.replace(",", ""), true, rangeSide);
         } else if (str.startsWith("até")) {
             if (rangeSide.orElse(null) == PostalCodeSide.EVEN) {
-                return Optional.of(2);
+                return of(2);
             } else {
-                return Optional.of(1);
+                return of(1);
             }
         }
 
@@ -141,11 +144,11 @@ public class ViaCepData {
             }
             return extractRangeOption(part.replace(",", ""), true, rangeSide);
         } else if (str.startsWith("ao km")) {
-            return Optional.of(0);
+            return of(0);
         }
 
         // Default decision
-        return Optional.empty();
+        return empty();
     }
 
     private Optional<Integer> extractRangeEnd(String str, Optional<PostalCodeSide> rangeSide) {
@@ -160,7 +163,7 @@ public class ViaCepData {
             var part = str.substring(str.indexOf(" a ") + 3).split(" ")[0];
             return extractRangeOption(part, false, rangeSide);
         } else if (str.contains("ao fim")) {
-            return Optional.empty();
+            return empty();
         }
 
         // Range end for kilometers
@@ -173,14 +176,14 @@ public class ViaCepData {
         }
 
         // Default decision
-        return Optional.empty();
+        return empty();
     }
 
     private Optional<Integer> extractRangeOption(String str, boolean first, Optional<PostalCodeSide> rangeSide) {
         var parts = str.split("/");
         var values = Arrays.stream(parts).map(Integer::parseInt).filter(value -> rangeSide.map(side -> side.isValid(value)).orElse(true)).toList();
         var index = (first) ? 0 : values.size() - 1;
-        return Optional.of(values.get(index));
+        return of(values.get(index));
     }
 
     public PostalCode toEntity() {
@@ -194,6 +197,7 @@ public class ViaCepData {
                 .rangeUnit(getRangeUnit())
                 .rangeStart(getRangeStart())
                 .rangeEnd(getRangeEnd())
+                .notes(isNotBlank(getNotes()) ? of(getNotes()) : empty())
                 .build();
     }
 

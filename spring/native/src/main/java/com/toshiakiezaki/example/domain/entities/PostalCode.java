@@ -35,4 +35,6 @@ public class PostalCode {
 
     private Optional<Integer> rangeEnd;
 
+    private Optional<String> notes;
+
 }

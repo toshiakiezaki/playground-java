@@ -9,6 +9,7 @@ CREATE TABLE postal_code (
     range_unit   POSTAL_CODE_UNIT,
     range_start  INTEGER,
     range_end    INTEGER,
+    notes        TEXT,
     CONSTRAINT pk_postal_code     PRIMARY KEY (id),
     CONSTRAINT uk_postal_code_001 UNIQUE (code)
 );

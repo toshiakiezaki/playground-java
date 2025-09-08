@@ -65,6 +65,9 @@ public class PostalCodeData implements Persistable<UUID> {
     @Column(value = "range_end")
     private Integer rangeEnd;
 
+    @Column(value = "notes")
+    private String notes;
+
     @Override
     public boolean isNew() {
         return !persisted;
@@ -86,6 +89,7 @@ public class PostalCodeData implements Persistable<UUID> {
                 .rangeUnit(nonNull(getRangeUnit()) ? of(getRangeUnit()) : empty())
                 .rangeStart(nonNull(getRangeStart()) ? of(getRangeStart()) : empty())
                 .rangeEnd(nonNull(getRangeEnd()) ? of(getRangeEnd()) : empty())
+                .notes(nonNull(getNotes()) ? of(getNotes()) : empty())
                 .build();
     }
 
@@ -101,6 +105,7 @@ public class PostalCodeData implements Persistable<UUID> {
                 .rangeUnit(postalCode.getRangeUnit().orElse(null))
                 .rangeStart(postalCode.getRangeStart().orElse(null))
                 .rangeEnd(postalCode.getRangeEnd().orElse(null))
+                .notes(postalCode.getNotes().orElse(null))
                 .build();
     }
 
