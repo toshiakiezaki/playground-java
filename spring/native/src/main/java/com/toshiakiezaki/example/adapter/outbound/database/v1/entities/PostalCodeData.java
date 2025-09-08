@@ -10,6 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import com.toshiakiezaki.example.domain.entities.PostalCode;
 import com.toshiakiezaki.example.domain.entities.PostalCodeSide;
+import com.toshiakiezaki.example.domain.entities.PostalCodeUnit;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -47,14 +48,17 @@ public class PostalCodeData implements Persistable<UUID> {
     @Column(value = "state")
     private String state;
 
-    @Column(value = "side")
-    private PostalCodeSide side;
+    @Column(value = "range_side")
+    private PostalCodeSide rangeSide;
 
-    @Column(value = "start_range")
-    private Integer startRange;
+    @Column(value = "range_unit")
+    private PostalCodeUnit rangeUnit;
 
-    @Column(value = "end_range")
-    private Integer endRange;
+    @Column(value = "range_start")
+    private Integer rangeStart;
+
+    @Column(value = "range_end")
+    private Integer rangeEnd;
 
     @Override
     public boolean isNew() {
@@ -73,8 +77,10 @@ public class PostalCodeData implements Persistable<UUID> {
                 .neighborhood(getNeighborhood())
                 .city(getCity())
                 .state(getState())
-                .startRange(getStartRange())
-                .endRange(getEndRange())
+                .rangeSide(getRangeSide())
+                .rangeUnit(getRangeUnit())
+                .rangeStart(getRangeStart())
+                .rangeEnd(getRangeEnd())
                 .build();
     }
 
@@ -86,9 +92,10 @@ public class PostalCodeData implements Persistable<UUID> {
                 .neighborhood(postalCode.getNeighborhood())
                 .city(postalCode.getCity())
                 .state(postalCode.getState())
-                .side(postalCode.getSide())
-                .startRange(postalCode.getStartRange())
-                .endRange(postalCode.getEndRange())
+                .rangeSide(postalCode.getRangeSide())
+                .rangeUnit(postalCode.getRangeUnit())
+                .rangeStart(postalCode.getRangeStart())
+                .rangeEnd(postalCode.getRangeEnd())
                 .build();
     }
 

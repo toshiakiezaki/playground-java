@@ -26,10 +26,12 @@ public class PostalCode {
 
     private String state;
 
-    private PostalCodeSide side;
+    private PostalCodeSide rangeSide;
 
-    private Integer startRange;
+    private PostalCodeUnit rangeUnit;
 
-    private Integer endRange;
+    private Integer rangeStart;
+
+    private Integer rangeEnd;
 
 }

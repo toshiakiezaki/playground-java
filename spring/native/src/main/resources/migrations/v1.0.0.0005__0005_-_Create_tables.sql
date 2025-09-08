@@ -5,9 +5,10 @@ CREATE TABLE postal_code (
     neighborhood VARCHAR(40)      NOT NULL, 
     city         VARCHAR(50)      NOT NULL,
     state        CHAR(2)          NOT NULL,
-    side         POSTAL_CODE_SIDE,
-    start_range  INTEGER,
-    end_range    INTEGER,
+    range_side   POSTAL_CODE_SIDE,
+    range_unit   POSTAL_CODE_UNIT,
+    range_start  INTEGER,
+    range_end    INTEGER,
     CONSTRAINT pk_postal_code     PRIMARY KEY (id),
     CONSTRAINT uk_postal_code_001 UNIQUE (code)
 );

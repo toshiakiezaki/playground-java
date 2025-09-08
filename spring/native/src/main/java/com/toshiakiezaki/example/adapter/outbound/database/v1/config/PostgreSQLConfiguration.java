@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 
 import com.toshiakiezaki.example.adapter.outbound.database.v1.converters.PostalCodeSideConverter;
+import com.toshiakiezaki.example.adapter.outbound.database.v1.converters.PostalCodeUnitConverter;
 import com.toshiakiezaki.example.domain.entities.PostalCodeSide;
+import com.toshiakiezaki.example.domain.entities.PostalCodeUnit;
 
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
@@ -44,13 +46,14 @@ public class PostgreSQLConfiguration extends AbstractR2dbcConfiguration {
                 .password(password)
                 .codecRegistrar(EnumCodec.builder()
                         .withEnum("postal_code_side", PostalCodeSide.class)
+                        .withEnum("postal_code_unit", PostalCodeUnit.class)
                         .build())
                 .build());
     }
 
     @Override
     protected List<Object> getCustomConverters() {
-        return List.of(new PostalCodeSideConverter());
+        return List.of(new PostalCodeSideConverter(), new PostalCodeUnitConverter());
     }
 
 }

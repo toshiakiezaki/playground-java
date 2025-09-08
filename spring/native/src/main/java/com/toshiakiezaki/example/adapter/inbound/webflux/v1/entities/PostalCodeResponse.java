@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.toshiakiezaki.example.domain.entities.PostalCode;
 import com.toshiakiezaki.example.domain.entities.PostalCodeSide;
+import com.toshiakiezaki.example.domain.entities.PostalCodeUnit;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -43,14 +44,17 @@ public class PostalCodeResponse implements Serializable {
     @JsonProperty(value = "state")
     private String state;
 
-    @JsonProperty(value = "side")
-    private Optional<PostalCodeSide> side;
+    @JsonProperty(value = "rangeSide")
+    private Optional<PostalCodeSide> rangeSide;
 
-    @JsonProperty(value = "start_range")
-    private Optional<Integer> startRange;
+    @JsonProperty(value = "rangeUnit")
+    private Optional<PostalCodeUnit> rangeUnit;
 
-    @JsonProperty(value = "end_range")
-    private Optional<Integer> endRange;
+    @JsonProperty(value = "range_start")
+    private Optional<Integer> rangeStart;
+
+    @JsonProperty(value = "range_end")
+    private Optional<Integer> rangeEnd;
 
     public static PostalCodeResponse from(PostalCode postalCode) {
         return builder()
@@ -59,9 +63,10 @@ public class PostalCodeResponse implements Serializable {
                 .neighborhood(postalCode.getNeighborhood())
                 .city(postalCode.getCity())
                 .state(postalCode.getState())
-                .side(nonNull(postalCode.getSide()) ? of(postalCode.getSide()) : empty())
-                .startRange(nonNull(postalCode.getStartRange()) ? of(postalCode.getStartRange()) : empty())
-                .endRange(nonNull(postalCode.getEndRange()) ? of(postalCode.getEndRange()) : empty())
+                .rangeSide(nonNull(postalCode.getRangeSide()) ? of(postalCode.getRangeSide()) : empty())
+                .rangeUnit(nonNull(postalCode.getRangeUnit()) ? of(postalCode.getRangeUnit()) : empty())
+                .rangeStart(nonNull(postalCode.getRangeStart()) ? of(postalCode.getRangeStart()) : empty())
+                .rangeEnd(nonNull(postalCode.getRangeEnd()) ? of(postalCode.getRangeEnd()) : empty())
                 .build();
     }
 

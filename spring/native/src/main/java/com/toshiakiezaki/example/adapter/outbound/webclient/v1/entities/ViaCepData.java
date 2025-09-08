@@ -92,9 +92,9 @@ public class ViaCepData {
                 .neighborhood(getNeighborhood())
                 .city(getCity())
                 .state(getState())
-                .side(getSide().orElse(null))
-                .startRange(getStartRange().orElse(null))
-                .endRange(getEndRange().orElse(null))
+                .rangeSide(getSide().orElse(null))
+                .rangeStart(getStartRange().orElse(null))
+                .rangeEnd(getEndRange().orElse(null))
                 .build();
     }
 
