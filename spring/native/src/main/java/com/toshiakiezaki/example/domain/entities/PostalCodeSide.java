@@ -24,6 +24,10 @@ public enum PostalCodeSide {
         return abbreviation;
     }
 
+    public boolean isValid(int value) {
+        return (this == EVEN && (value & 1) == 0) || (this == ODD && (value & 1) == 1);
+    }
+
     public static PostalCodeSide parse(String str) {
         return stream(values()).filter(f -> f.code().equals(str) || f.abbreviation().equals(str)).findFirst()
                 .orElseThrow(() -> new UnmappablePropertyValueException(String.format("Unsupported side value: %s", str)));

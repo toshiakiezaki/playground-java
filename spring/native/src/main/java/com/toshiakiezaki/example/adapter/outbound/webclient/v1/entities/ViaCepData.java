@@ -1,16 +1,23 @@
 package com.toshiakiezaki.example.adapter.outbound.webclient.v1.entities;
 
+import java.util.Arrays;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.toshiakiezaki.example.domain.entities.PostalCode;
 import com.toshiakiezaki.example.domain.entities.PostalCodeSide;
+import com.toshiakiezaki.example.domain.entities.PostalCodeUnit;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Getter
 @Setter
@@ -48,41 +55,126 @@ public class ViaCepData {
     @JsonProperty(value = "gia")
     private String gia;
 
-    public Optional<PostalCodeSide> getSide() {
-        if ("".equals(notes) || !notes.contains("lado")) {
+    @JsonIgnore
+    @Setter(AccessLevel.NONE)
+    private Optional<PostalCodeSide> rangeSide;
+
+    @JsonIgnore
+    @Setter(AccessLevel.NONE)
+    private Optional<PostalCodeUnit> rangeUnit;
+
+    @JsonIgnore
+    @Setter(AccessLevel.NONE)
+    private Optional<Integer> rangeStart;
+
+    @JsonIgnore
+    @Setter(AccessLevel.NONE)
+    private Optional<Integer> rangeEnd;
+
+    public Optional<PostalCodeSide> getRangeSide() {
+        if (isNull(rangeSide)) {
+            rangeSide = extractRangeSide(notes);
+        }
+        return rangeSide;
+    }
+
+    public Optional<PostalCodeUnit> getRangeUnit() {
+        if (isNull(rangeUnit)) {
+            rangeUnit = extractRangeUnit(notes);
+        }
+        return rangeUnit;
+    }
+
+    public Optional<Integer> getRangeStart() {
+        if (isNull(rangeStart)) {
+            rangeStart = extractRangeStart(getNotes(), getRangeSide());
+        }
+        return rangeStart;
+    }
+
+    public Optional<Integer> getRangeEnd() {
+        if (isNull(rangeEnd)) {
+            rangeEnd = extractRangeEnd(getNotes(), getRangeSide());
+        }
+        return rangeEnd;
+    }
+
+    private Optional<PostalCodeSide> extractRangeSide(String str) {
+        if (isEmpty(str) || !str.contains("lado")) {
             return Optional.empty();
         }
-        var side = notes.replaceAll(".*lado\s", "");
+        var side = str.replaceAll(".*lado ", "");
         return Optional.of(PostalCodeSide.parse(side));
     }
 
-    public Optional<Integer> getStartRange() {
-        if ("".equals(notes) || !notes.startsWith("de")) {
+    private Optional<PostalCodeUnit> extractRangeUnit(String str) {
+        if (isEmpty(str)) {
             return Optional.empty();
         }
-        var parts = notes.split(" ");
-        return this.extractRange(parts[1]);
+        if  (str.contains("km")) {
+            return Optional.of(PostalCodeUnit.KILOMETER);
+        }
+        return Optional.of(PostalCodeUnit.NUMBER);
     }
 
-    public Optional<Integer> getEndRange() {
-        if ("".equals(notes) || notes.startsWith("lado") || notes.contains("ao fim")) {
+    private Optional<Integer> extractRangeStart(String str, Optional<PostalCodeSide> rangeSide) {
+        // Remove the unnecessary part
+        str = str.replaceAll("( - )?lado.*", "").trim();
+
+        // Range start for numbers
+        if (str.contains("de")) {
+            var part = str.substring(str.indexOf("de") + 3).split(" ")[0];
+            return extractRangeOption(part.replace(",", ""), true, rangeSide);
+        } else if (str.startsWith("até")) {
+            if (rangeSide.orElse(null) == PostalCodeSide.EVEN) {
+                return Optional.of(2);
+            } else {
+                return Optional.of(1);
+            }
+        }
+
+        // Range start for kilometers
+        if (str.contains("do km")) {
+            var part = str.substring(str.indexOf("do km") + 6).split(" ")[0];
+            if (!part.contains(",")) {
+                part += "000";
+            }
+            return extractRangeOption(part.replace(",", ""), true, rangeSide);
+        } else if (str.startsWith("ao km")) {
+            return Optional.of(0);
+        }
+
+        // Default decision
+        return Optional.empty();
+    }
+
+    private Optional<Integer> extractRangeEnd(String str, Optional<PostalCodeSide> rangeSide) {
+        // Range end for numbers
+        if (str.contains("até")) {
+            var part = str.substring(str.indexOf("até") + 4).split(" ")[0];
+            return extractRangeOption(part, false, rangeSide);
+        } else if (str.contains("ao fim")) {
             return Optional.empty();
         }
-        var parts = notes.split(" ");
-        if (parts[0].equals("até")) {
-            return this.extractRange(parts[1], false);
+
+        // Range end for kilometers
+        if (str.contains("ao km")) {
+            var part = str.substring(str.indexOf("ao km") + 6).split(" ")[0];
+            if (!part.contains(",")) {
+                part += "000";
+            }
+            return extractRangeOption(part.replace(",", ""), false, rangeSide);
         }
-        return this.extractRange(parts[3], false);
+
+        // Default decision
+        return Optional.empty();
     }
 
-    private Optional<Integer> extractRange(String value) {
-        return this.extractRange(value, true);
-    }
-
-    private Optional<Integer> extractRange(String value, boolean startingRange) {
-        var parts = value.split("/");
-        var index = (startingRange) ? 0 : parts.length - 1;
-        return Optional.of(Integer.parseInt(parts[index]));
+    private Optional<Integer> extractRangeOption(String str, boolean first, Optional<PostalCodeSide> rangeSide) {
+        var parts = str.split("/");
+        var values = Arrays.stream(parts).map(Integer::parseInt).filter(value -> rangeSide.map(side -> side.isValid(value)).orElse(true)).toList();
+        var index = (first) ? 0 : values.size() - 1;
+        return Optional.of(values.get(index));
     }
 
     public PostalCode toEntity() {
@@ -92,9 +184,10 @@ public class ViaCepData {
                 .neighborhood(getNeighborhood())
                 .city(getCity())
                 .state(getState())
-                .rangeSide(getSide().orElse(null))
-                .rangeStart(getStartRange().orElse(null))
-                .rangeEnd(getEndRange().orElse(null))
+                .rangeSide(getRangeSide().orElse(null))
+                .rangeUnit(getRangeUnit().orElse(null))
+                .rangeStart(getRangeStart().orElse(null))
+                .rangeEnd(getRangeEnd().orElse(null))
                 .build();
     }
 
